@@ -4,13 +4,14 @@ import { StarRounded } from "@material-ui/icons";
 import "./Product.css";
 import { useStateValue } from "../../context/provider";
 
-function Product({ title, price, rating, image }) {
+function Product({ id, title, price, rating, image }) {
   const [state, dispatch] = useStateValue();
 
   const addToBasket = () => {
     dispatch({
       type: "ADD_TO_BASKET",
       item: {
+        id,
         title,
         price,
         rating,
