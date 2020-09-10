@@ -1,12 +1,15 @@
 import React from "react";
 
 import "./SubTotal.css";
+import { useStateValue } from "../../context/provider";
 
 function SubTotal() {
+  const [{ basket }, dispatch] = useStateValue();
+
   return (
     <div className="subtotal">
       <p>
-        Subtotal (0 item): $<strong>0</strong>
+        Subtotal ({basket?.length} item): $<strong>0</strong>
       </p>
 
       <small className="subtotal__gift">

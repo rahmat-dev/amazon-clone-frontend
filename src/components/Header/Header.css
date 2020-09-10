@@ -63,6 +63,7 @@
 
 .header__basket > a {
   color: white !important;
+  text-decoration: none;
 }
 
 .header__basketCount {
