@@ -7,10 +7,10 @@
 
 .checkout__left {
   flex: 1;
+  margin-right: 20px;
 }
 
 .checkout__leftTitle {
-  margin-right: 20px;
   padding: 10px;
   border-bottom: 1px solid lightgray;
 }
