@@ -14,14 +14,7 @@ function Checkout() {
         <h2 className="checkout__leftTitle">Your shopping Basket</h2>
         <div>
           {basket.map((item, index) => (
-            <CheckoutProduct
-              id={item.id}
-              image={item.image}
-              title={item.title}
-              price={item.price}
-              rating={item.rating}
-              key={index}
-            />
+            <CheckoutProduct {...item} key={index} />
           ))}
         </div>
       </div>

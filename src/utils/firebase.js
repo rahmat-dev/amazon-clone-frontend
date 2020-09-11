@@ -1,13 +1,13 @@
 import firebase from "firebase";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCIY2A7deS_YA5HcoGiSZmXAhA8GwjkQUk",
-  authDomain: "amaz-clone-fe.firebaseapp.com",
-  databaseURL: "https://amaz-clone-fe.firebaseio.com",
-  projectId: "amaz-clone-fe",
-  storageBucket: "amaz-clone-fe.appspot.com",
-  messagingSenderId: "725072293856",
-  appId: "1:725072293856:web:bd0c88817dcc9dc4228585",
+  apiKey: "AIzaSyDZ5jjdOHTudI0dgs2IRMSgO_CHPzFBfAY",
+  authDomain: "amat-zone.firebaseapp.com",
+  databaseURL: "https://amat-zone.firebaseio.com",
+  projectId: "amat-zone",
+  storageBucket: "amat-zone.appspot.com",
+  messagingSenderId: "905631619466",
+  appId: "1:905631619466:web:272beeee8bdf49b89e5073",
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
