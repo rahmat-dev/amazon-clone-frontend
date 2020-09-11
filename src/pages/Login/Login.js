@@ -1,15 +1,45 @@
 import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { firebaseAuth } from "../../utils";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
-  const signIn = (e) => {
+  const handleSignIn = (e) => {
     e.preventDefault();
-    alert(`${email} ${password}`);
+    setLoading(true);
+
+    firebaseAuth
+      .signInWithEmailAndPassword(email, password)
+      .then((auth) => {
+        if (auth) {
+          history.push("/");
+        }
+      })
+      .catch((error) => setError(error.message))
+      .finally(() => setTimeout(() => setLoading(false), 400));
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    setLoading((currentState) => !currentState);
+    console.log("register", loading);
+
+    firebaseAuth
+      .createUserWithEmailAndPassword(email, password)
+      .then((auth) => {
+        if (auth) {
+          history.push("/");
+        }
+      })
+      .catch((error) => setError(error.message))
+      .finally(() => setTimeout(() => setLoading(false), 400));
   };
 
   return (
@@ -24,6 +54,12 @@ function Login() {
 
       <div className="login__container">
         <h1>Sign-in</h1>
+
+        {error && (
+          <div className="login__error">
+            <span>{error}</span>
+          </div>
+        )}
 
         <form method="POST">
           <h5>E-mail</h5>
@@ -40,7 +76,11 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button className="login__signInButton" onClick={signIn}>
+          <button
+            className="login__signInButton"
+            onClick={handleSignIn}
+            disabled={loading}
+          >
             Sign-in
           </button>
 
@@ -50,7 +90,13 @@ function Login() {
             Interest-Based Ads Notice.
           </p>
         </form>
-        <button className="login__registerButton">Create your Account</button>
+        <button
+          className="login__registerButton"
+          onClick={handleRegister}
+          disabled={loading}
+        >
+          Create your Account
+        </button>
       </div>
     </div>
   );
