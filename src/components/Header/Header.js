@@ -4,9 +4,16 @@ import { Link } from "react-router-dom";
 
 import "./Header.css";
 import { useStateValue } from "../../context/provider";
+import { firebaseAuth } from "../../utils";
 
 function Header() {
-  const [{ basket }, dispatch] = useStateValue();
+  const [{ basket, user }, dispatch] = useStateValue();
+
+  const handleAuthentication = () => {
+    if (user) {
+      firebaseAuth.signOut();
+    }
+  };
 
   return (
     <div className="header">
@@ -24,10 +31,14 @@ function Header() {
       </div>
 
       <div className="header__nav">
-        <Link to="/login">
-          <div className="header__navItem">
-            <span className="header__navItemLineOne">Hello,</span>
-            <span className="header__navItemLineTwo">Sign In</span>
+        <Link to={user ? "/" : "/login"}>
+          <div className="header__navItem" onClick={handleAuthentication}>
+            <span className="header__navItemLineOne">
+              Hello, {user?.email ?? "Guest"}
+            </span>
+            <span className="header__navItemLineTwo">
+              {user ? "Sign Out" : "Sign In"}
+            </span>
           </div>
         </Link>
 
