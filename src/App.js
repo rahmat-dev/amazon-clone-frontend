@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 import "./App.css";
 import { Header } from "./components";
@@ -7,8 +9,12 @@ import { Home, Checkout, Login, Payment } from "./pages";
 import { firebaseAuth } from "./utils";
 import { useStateValue } from "./context/provider";
 
+const stripePromise = loadStripe(
+  "pk_test_51HQt7mDPGnFPZHLuPSchiKLOa9f7wh7CxqFIlV176bFjL2FgZEKcavZyZC7NoC6gPR3BkJ7cAnTjDaFtYSXjXfBu00AIxz2AbB"
+);
+
 function App() {
-  const [{}, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
 
   useEffect(() => {
     firebaseAuth.onAuthStateChanged((authUser) => {
@@ -45,7 +51,9 @@ function App() {
 
           <Route path="/payment">
             <Header />
-            <Payment />
+            <Elements stripe={stripePromise}>
+              <Payment />
+            </Elements>
           </Route>
 
           <Route path="/" exact>
