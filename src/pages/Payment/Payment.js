@@ -10,13 +10,13 @@ import { CheckoutProduct } from "../../components";
 import { axios } from "../../utils";
 
 function Payment() {
-  const [{ basket, user }] = useStateValue();
+  const [{ basket, user }, dispatch] = useStateValue();
 
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
-  const [processing, setProcessing] = useState(false);
-  const [succeeded, setSucceeded] = useState(true);
-  const [clientSecret, setClientSecret] = useState(true);
+  const [processing, setProcessing] = useState("");
+  const [succeeded, setSucceeded] = useState(false);
+  const [clientSecret, setClientSecret] = useState("");
 
   const stripe = useStripe();
   const elements = useElements();
@@ -27,6 +27,11 @@ function Payment() {
   }, []);
 
   useEffect(() => {
+    // redirect to home if cart item is empty
+    if (!basket.length) {
+      history.replace("/");
+    }
+
     // generate the special stripe secret which allows us to charge a customer
     const getClientSecret = async () => {
       const response = await axios({
@@ -57,6 +62,8 @@ function Payment() {
         setError(null);
         setProcessing(false);
 
+        dispatch({ type: "EMPTY_BASKET" });
+
         history.replace("/orders");
       });
   };
@@ -65,7 +72,7 @@ function Payment() {
     console.log(e);
     // Listen for changes in the CardElement
     // and display any errors as the customer types their card details
-    setDisabled(e.empty);
+    setDisabled(e.empty || e.error || !e.complete);
     setError(e.error ? e.error.message : "");
   };
 
