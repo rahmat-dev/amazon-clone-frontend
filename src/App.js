@@ -5,7 +5,7 @@ import { Elements } from "@stripe/react-stripe-js";
 
 import "./App.css";
 import { Header } from "./components";
-import { Home, Checkout, Login, Payment } from "./pages";
+import { Home, Checkout, Login, Payment, Orders } from "./pages";
 import { firebaseAuth } from "./utils";
 import { useStateValue } from "./context/provider";
 
@@ -18,8 +18,6 @@ function App() {
 
   useEffect(() => {
     firebaseAuth.onAuthStateChanged((authUser) => {
-      console.log("User: ", authUser);
-
       if (authUser) {
         // the user was logged in
         dispatch({
@@ -54,6 +52,11 @@ function App() {
             <Elements stripe={stripePromise}>
               <Payment />
             </Elements>
+          </Route>
+
+          <Route path="/orders">
+            <Header />
+            <Orders />
           </Route>
 
           <Route path="/" exact>
