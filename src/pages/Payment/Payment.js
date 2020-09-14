@@ -7,7 +7,7 @@ import "./Payment.css";
 import { useStateValue } from "../../context/provider";
 import { getBasketTotalPrice } from "../../context/reducer";
 import { CheckoutProduct } from "../../components";
-import { axios } from "../../utils";
+import { axios, firebaseDB } from "../../utils";
 
 function Payment() {
   const [{ basket, user }, dispatch] = useStateValue();
@@ -58,6 +58,17 @@ function Payment() {
       })
       .then(({ paymentIntent }) => {
         // paymentIntent = payment confirmation
+        firebaseDB
+          .collection("users")
+          .doc(user?.uid)
+          .collection("orders")
+          .doc(paymentIntent.id)
+          .set({
+            basket,
+            amount: paymentIntent.amount,
+            created: paymentIntent.created,
+          });
+
         setSucceeded(true);
         setError(null);
         setProcessing(false);
@@ -69,7 +80,6 @@ function Payment() {
   };
 
   const handleChange = (e) => {
-    console.log(e);
     // Listen for changes in the CardElement
     // and display any errors as the customer types their card details
     setDisabled(e.empty || e.error || !e.complete);
