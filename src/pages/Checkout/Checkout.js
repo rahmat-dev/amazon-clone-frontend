@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import "./Checkout.css";
 import { SubTotal, CheckoutProduct } from "../../components";
 import { useStateValue } from "../../context/provider";
 
 function Checkout() {
-  const [{ basket, user }, dispatch] = useStateValue();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const [{ basket, user }] = useStateValue();
 
   return (
     <div className="checkout">
